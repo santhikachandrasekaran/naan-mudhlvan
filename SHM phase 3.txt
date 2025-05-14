@@ -1,0 +1,37 @@
+from typing import Tuple
+from PIL import Image
+
+def is_dark(pixel: Tuple[int, int, int], threshold: int = 50) -> bool:
+    """Returns True if the pixel is darker than the threshold (simulated damage)."""
+    avg_brightness = sum(pixel) // 3
+    return avg_brightness < threshold
+
+def analyze_image(image_path: str) -> None:
+    try:
+        img = Image.open(image_path).convert('RGB')
+    except FileNotFoundError:
+        print(f"❌ File not found: {image_path}")
+        return
+
+    width, height = img.size
+    pixels = img.load()
+
+    dark_pixels = sum(
+        1 for y in range(height) for x in range(width) if is_dark(pixels[x, y])
+    )
+    total_pixels = width * height
+    dark_ratio = dark_pixels / total_pixels
+
+    print(f"📷 Image: {image_path}")
+    print(f"🧠 Dark pixels: {dark_pixels} / {total_pixels} ({dark_ratio:.2%})")
+
+    if dark_ratio > 0.05:
+        print("⚠️ Potential structural damage detected (dark regions).")
+    else:
+        print("✅ No significant damage detected.")
+
+image_path = r"C:\Users\krish\OneDrive\Desktop\shm_crack.jpeg" 
+analyze_image(image_path)
+print("\n")
+image_path_bridge=r"C:\Users\krish\OneDrive\Pictures\rusty_bridgeshm.jpg"
+analyze_image(image_path_bridge)

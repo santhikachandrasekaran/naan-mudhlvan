@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IBM-AI-EBPL Dashboard</title>
+</head>
+<body>
+    <h2>Upload Image for Damage Detection</h2>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if damage %}
+    <h3>Detection Result:</h3>
+    <p><strong>Type:</strong> {{ damage.type }}</p>
+    <p><strong>Severity:</strong> {{ damage.severity }}</p>
+    <p><strong>Time:</strong> {{ damage.time }}</p>
+    {% endif %}
+
+    {% if forecast %}
+    <h3>Predicted Degradation Risk:</h3>
+    <p>{{ forecast }}</p>
+    {% endif %}
+
+    <h3>Sensor Data:</h3>
+    <ul>
+        <li>Strain: {{ sensor.strain }}</li>
+        <li>Vibration: {{ sensor.vibration }}</li>
+        <li>Temperature: {{ sensor.temperature }}</li>
+    </ul>
+</body>
+</html>
